@@ -155,8 +155,30 @@ static int vmem_read (void)
     if (strncmp ("nr_", key, strlen ("nr_")) == 0)
     {
       char *inst = key + strlen ("nr_");
-      value_t value = { .gauge = gauge };
-      submit_one (NULL, "vmpage_number", inst, value);
+      if ( strcmp ("dirtied", inst) == 0 )
+      {
+       value_t value = { .derive = counter };
+       submit_one (NULL, "vmpage_number", inst, value);
+      }
+      else if ( strcmp ("written", inst) == 0 )
+      {
+       value_t value = { .derive = counter };
+       submit_one (NULL, "vmpage_number", inst, value);
+      }
+      else if ( strcmp ("vmscan_write", inst) == 0 )
+      {
+       value_t value = { .derive = counter };
+       submit_one (NULL, "vmpage_number", inst, value);
+      }
+      else if ( strcmp ("vmscan_immediate_reclaim", inst) == 0 )
+      {
+       value_t value = { .derive = counter };
+       submit_one (NULL, "vmpage_number", inst, value);
+      }
+      else {
+       value_t value = { .gauge = gauge };
+       submit_one (NULL, "vmpage_number", inst, value);
+      }
     }
 
     /* 
